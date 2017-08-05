@@ -1,3 +1,9 @@
+// @Author: Nicolas Fazio <webmaster-fazio>
+// @Date:   24-07-2017
+// @Email:  contact@nicolasfazio.ch
+// @Last modified by:   webmaster-fazio
+// @Last modified time: 05-08-2017
+
 // http://ionicframework.com/docs/theming/
 
 
@@ -14,3 +20,80 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+@font-face {
+  font-family: 'DS DIGI';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../assets/fonts/ds_digital/DS-DIGI.woff2') format('woff2')
+}
+
+@font-face {
+  font-family: 'DS DIGIB';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../assets/fonts/ds_digital/DS-DIGIB.woff2') format('woff2')
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'DS DIGIB';
+}
+p, li, a, button {
+  font-family: 'DS DIGI';
+}
+
+ion-content {
+  color: #fff!important;
+  background: #1c1c1c!important;
+}
+
+.dTable{
+  display:table;
+  width: 100%;
+  height: 100%;
+}
+.dCell {
+  display: table-cell;
+  width: 100%;
+  vertical-align: middle;
+}
+
+.button-block-md {
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 2.5rem;
+    padding: 25px 0px;
+}
+
+.alert-md .alert-button-group {
+  padding:8px;
+}
+.alert-md .alert-wrapper {
+    background: #1c1c1c;
+    color: #fff;
+
+    .alert-sub-title {
+      text-align: center;
+      font-size: 3rem;
+    }
+}
+button.disable-hover.alert-button.alert-button-md.alert-button-default.alert-button-default-md {
+    margin: auto;
+    font-size: 2rem;
+}
+
+.action-sheet-wrapper {
+  .action-sheet-container {
+    background: #1c1c1c;
+  }
+  .action-sheet-button.activated {
+    background: #2e2e2e;
+  }
+  span.button-inner {
+      color: #fdd835;
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-align: center;
+      display: block;
+  }
+}

@@ -1,3 +1,9 @@
+// @Author: Nicolas Fazio <webmaster-fazio>
+// @Date:   24-07-2017
+// @Email:  contact@nicolasfazio.ch
+// @Last modified by:   webmaster-fazio
+// @Last modified time: 05-08-2017
+
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
@@ -34,11 +40,12 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #488aff,
-  secondary:  #32db64,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222
+  primary:      #fdd835,
+  secondary:    #32db64,
+  danger:       #f53d3d,
+  light:        #f4f4f4,
+  dark:         #222,
+  transparent:  transparent
 );
 
 

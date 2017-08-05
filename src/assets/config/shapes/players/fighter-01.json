@@ -1,0 +1,10 @@
+{
+  "id": "fighter-01",
+  "x": 150,
+  "y": 500,
+  "width": 60,
+  "height": 60,
+  "power": 10,
+  "life": 1000,
+  "imgUrl": "./assets/img/fighter-01.png"
+}
