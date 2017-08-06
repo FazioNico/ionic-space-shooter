@@ -3,7 +3,7 @@
  * @Date:   27-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 29-07-2017
+ * @Last modified time: 06-08-2017
  */
 
  export class Shape {
@@ -18,7 +18,8 @@
      public life:number;
      public color:string;
      public img:HTMLImageElement;
-     public imgUrl:string;
+     public imgArray?:HTMLImageElement[];
+     public imgUrl:string | string[];
 
      constructor(ctx:CanvasRenderingContext2D){
        this.ctx = ctx;
@@ -45,11 +46,24 @@
        if(!this.imgUrl){
          return;
        }
-       this.img = new Image();
-      //  this.img.onload = (e:any)=>{
-      //    //console.log(e.path[0].src)
-      //    //this.img.src = img.src;
-      //  };
-       this.img.src = this.imgUrl;
+       if(typeof this.imgUrl != 'string'){
+         let imgDatas:HTMLImageElement[] = []
+         this.imgUrl.map((imageURL,i)=> {
+           let img = new Image();
+           img.src = imageURL;
+           img.onload = (e:any)=>{
+             imgDatas.push(img)
+           };
+         })
+         this.imgArray = imgDatas
+       }
+       else {
+         this.img = new Image();
+        //  this.img.onload = (e:any)=>{
+        //    //console.log(e.path[0].src)
+        //    //this.img.src = img.src;
+        //  };
+         this.img.src = this.imgUrl;
+       }
      }
  }

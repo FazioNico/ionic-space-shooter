@@ -3,7 +3,7 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 04-08-2017
+ * @Last modified time: 07-08-2017
 */
 
 import { Component, Output, EventEmitter, ViewChild, Input, ElementRef, Renderer, ChangeDetectionStrategy, HostListener } from '@angular/core';
@@ -12,6 +12,9 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store'
 
 import { State } from "../../store/reducers";
+import { IConfigStats } from "../../store/reducers/configReducer";
+import { IPlayerStats } from "../../store/reducers/playerReducer";
+import { ILevelStats } from "../../store/reducers/levelReducer";
 import { MainActions } from '../../store/actions/mainActions';
 
 import { Background } from "../../models/background/background";
@@ -19,6 +22,7 @@ import { Player } from "../../models/players/player";
 import { Enemy } from "../../models/enemys/enemy";
 import { Bullet } from "../../models/bullets/bullet";
 import { Boss } from "../../models/boss/boss";
+import { Explosion } from "../../models/explosions/explosion";
 
 import { Quadtree } from "../../tools/quadtree";
 import { ManageCollision } from "../../tools/manageCollision";
@@ -36,7 +40,6 @@ import { ManageCollision } from "../../tools/manageCollision";
 export class CanvasAreaComponent{
 
   @HostListener(`document:mousemove`, ['$event']) onKMouseMove(event: MouseEvent) {
-      //console.log(event)
       this.updatePlayer({x:event.clientX, y:event.clientY})
       // this.store.dispatch({
       //     type: MainActions.MOUSE_MOVING,
@@ -44,7 +47,6 @@ export class CanvasAreaComponent{
       // });
   }
   @HostListener('document:keypress', ['$event']) onKeyPress(event: KeyboardEvent) {
-      // console.log('HostListener onKeyPress', event)
       if(event.keyCode != 13){
         return false;
       }
@@ -52,21 +54,29 @@ export class CanvasAreaComponent{
   }
 
   @ViewChild('canvasArea') canvasArea:ElementRef;
-  @Input('config') config:any
-  @Input('player') player:Player
-  @Input('level') level:any
-  @Output() onEvents: EventEmitter<any> = new EventEmitter();
+  @Input('config') config:IConfigStats
+  @Input('player') player:IPlayerStats
+  @Input('level') level:ILevelStats
+  @Output() onEvents: EventEmitter<string> = new EventEmitter();
 
   //public config:any;
   public ctx:CanvasRenderingContext2D;
-  public elementsToDraw:any;
+  public elementsToDraw:{
+    "background"?: Background;
+    "player":Player[];
+    "bullet": Bullet[],
+    "enemy": Enemy[],
+    "boss": Boss[],
+    "enemyBullet": Bullet[];
+    "explosion": any[];
+  }
   public boss:Boss
 
-  public drawLevelUp:boolean = false;
-  public eventEmited:boolean = false;
-  public animate:boolean = true;
+  public drawLevelUp:boolean;
+  public eventEmited:boolean;
+  public animate:boolean;
   public animationFrame:any;
-  public intCtrl: {enemy:number, enemyBullet:number} = {enemy:null, enemyBullet:null};
+  public intCtrl: {enemy:number, enemyBullet:number}
   public collCtrl:ManageCollision;
   public quadtree:Quadtree;
 
@@ -78,7 +88,10 @@ export class CanvasAreaComponent{
   }
 
   initGame() {
-    //console.log(this.player)
+    this.drawLevelUp = false
+    this.eventEmited = false
+    this.animate = true
+    this.intCtrl = {enemy:null, enemyBullet:null};
     // init quadTree
     this.quadtree = new Quadtree({
     	x: 0,
@@ -87,7 +100,6 @@ export class CanvasAreaComponent{
     	height: this.config.position.height
     }, 4);
     this.elementsToDraw = {
-      //"background": new Background(this.config.position.width, this.config.position.height, this.config.ctx),
       "player": [],
       "bullet": [],
       "enemy": [],
@@ -100,12 +112,10 @@ export class CanvasAreaComponent{
     this.renderer.setElementAttribute(this.canvasArea.nativeElement, 'width', this.config.position.width + '');
     this.renderer.setElementAttribute(this.canvasArea.nativeElement, 'height', this.config.position.height + '');
     // add background
-    this.elementsToDraw.background = new Background(this.config.position.width, this.config.position.height, this.ctx, this.level.config.background.speed, this.level.config.background.speed.imgUrl)
+    this.elementsToDraw.background = new Background(this.config.position.width, this.config.position.height, this.ctx, this.level.config.background.speed, this.level.config.background.imgUrl)
     // add player
     this.elementsToDraw.player.push(new Player(this.ctx, this.player.imgUrl, this.player.life))
-    console.log(this.player)
     window['player'] = this.player
-    //console.log(this.inpLevel.config.enemys)
     //add enemy
     this.addEnemy()
     this.intCtrl.enemyBullet =  setInterval(_=> {
@@ -113,24 +123,28 @@ export class CanvasAreaComponent{
                                 this.addBullets(false)
                               },1800)
     // Init collision manager with all elements to draw + score .
-    this.collCtrl = new ManageCollision(this.config.ctx, this.elementsToDraw, 0)//this.txtToDraw.score
-
+    this.collCtrl = new ManageCollision(this.ctx, this.elementsToDraw, 0)
     // init draw
     this.animate = true
     this.drawElements()
-    //console.log(this.config)
   }
 
   drawElements(){
-    if(!this.animate)return ;
+    console.log(this.level.maxLevel, this.level.current)
+    if(!this.animate )return ;
+    if(this.level.maxLevel <= this.level.current){
+      this.stopGame()
+      this.drawFinalWin()
+      this.onEvents.emit('endofgame');
+      return;
+     };
+
     this.ctx.clearRect(0,0,this.config.position.width,this.config.position.height)
     this.quadtree.clear()
     // insert/update element in quadtree
     this.quadtree.insert( this.elementsToDraw.player)
     this.quadtree.insert( this.elementsToDraw.enemy )
     this.quadtree.insert( this.elementsToDraw.boss )
-
-    // Draw all elements
     // Draw background
     this.elementsToDraw.background.draw()
     // Draw players
@@ -148,11 +162,9 @@ export class CanvasAreaComponent{
         return player.draw()
       }
     })
-
     // Draw all Bullets
     this.elementsToDraw.bullet.map((bullet, index) => {
       this.checkCandidate(bullet,index)
-
       // if animated element move outside canvasElement zone
       this.removeElement('bullet',bullet,index , false)
       // return drawable element
@@ -174,19 +186,32 @@ export class CanvasAreaComponent{
       return enemyBullet.draw()
     })
     // Draw Boss
-    //console.log('add Boss', this.collCtrl.score.current >= this.level.config.maxScore, this.boss)
     if(this.collCtrl.score.current >= this.level.config.maxScore && !this.boss){
       this.boss = new Boss(this.ctx, this.level.config.boss,(this.config.position.width/2)- 90,-180)
       //console.log('add Boss -> level.config', this.level.config)
       this.elementsToDraw.boss.push(this.boss)
     }
-
     this.elementsToDraw.boss.map((boss:Boss, i) => {
-      //this.checkCandidate(boss, i)
-      //this.removeElement('boss', boss,i, true)
       return boss.draw()
     })
 
+    // Draw Explosion
+    if(this.collCtrl.collision.active){
+      let explosionImages:any[] = [
+        './assets/img/expl_1.png', './assets/img/expl_2.png', './assets/img/expl_3.png', './assets/img/expl_4.png',
+        './assets/img/expl_5.png', './assets/img/expl_6.png', './assets/img/expl_7.png', './assets/img/expl_8.png',
+        './assets/img/expl_9.png', './assets/img/expl_10.png', './assets/img/expl_11.png'
+      ];
+      let exp = new Explosion(this.ctx, this.collCtrl.collision.x, this.collCtrl.collision.y, explosionImages)
+      this.elementsToDraw.explosion.push(exp);
+      this.collCtrl.collision = {active:false};
+    }
+    this.elementsToDraw.explosion.map((explosion, index)=> {
+      if(explosion.count >= 11){
+        this.removeElement('explosion',explosion,index, true)
+      }
+      return explosion.draw()
+    })
 
     // Draw score
     this.drawTXT({
@@ -211,7 +236,7 @@ export class CanvasAreaComponent{
     }
 
     // Draw gameOver
-    if(this.elementsToDraw.player[0].life <= 0){
+    if(!this.elementsToDraw.player[0] || this.elementsToDraw.player[0].life <= 0){
       if(!this.eventEmited) this.onEvents.emit('gameover');
       this.drawTXT({
         x:this.config.position.width/2,
@@ -223,7 +248,7 @@ export class CanvasAreaComponent{
       })
       this.eventEmited = true
     }
-    //console.log(this.elementsToDraw)
+
     this.collCtrl.elementsToDraw = this.elementsToDraw
     this.animationFrame = requestAnimationFrame(_=>this.drawElements());
   }
@@ -237,10 +262,8 @@ export class CanvasAreaComponent{
   }
 
   addEnemy(){
-    //console.log(this.level.config.maxScore )
     let delay:number =  Math.floor(Math.random()*(3000-500+1)+500);
     let x:number =  Math.floor(Math.random()*this.config.position.width);
-    console.log('addEnemy-> ', delay, x)
     this.intCtrl.enemy = setTimeout( ()=> {
       this.elementsToDraw.enemy.push(new Enemy(this.ctx, this.level.config.enemys, (x>=(this.config.position.width-60))?this.config.position.width-60: x, 0))
       this.addEnemy();
@@ -248,7 +271,6 @@ export class CanvasAreaComponent{
   }
 
   addBullets(player:boolean){
-    //console.log('playerShot')
     if(!this.elementsToDraw.player[0] || this.elementsToDraw.player[0].life <= 0){
       return
     }
@@ -265,7 +287,6 @@ export class CanvasAreaComponent{
     }
     else {
       // enemy bullets
-
       if(this.elementsToDraw.enemy.length === 0){
         return false
       }
@@ -279,8 +300,6 @@ export class CanvasAreaComponent{
       // add bullets to elementsToDraw
       this.elementsToDraw.enemyBullet.push(...bullets)
     }
-
-    //console.log(this.elementsToDraw.bullet)
     // this.audio.bullet.default.currentTime = 0;
     // this.audio.bullet.default.play()
 
@@ -289,7 +308,6 @@ export class CanvasAreaComponent{
     if(!position || !this.elementsToDraw || !this.elementsToDraw.player[0]){
       return
     };
-    //console.log(position.y)
     this.elementsToDraw.player[0].x = (position.x >29)?position.x-30 : 0
     this.elementsToDraw.player[0].y = (position.y >29)?position.y-30 : 0
   }
@@ -301,7 +319,7 @@ export class CanvasAreaComponent{
         this.collCtrl.detectCollision(index,candidate,myCursor,cIndex)
         if(this.collCtrl.result){
           let endOfLevel = this.collCtrl._then()
-          console.log(endOfLevel)
+          //console.log(endOfLevel)
           if(endOfLevel)this.levelUp();return
           // console.log(this.collCtrl.result)
         }
@@ -315,7 +333,6 @@ export class CanvasAreaComponent{
   }
 
   handleStart(event){
-    //console.log(event)
     this.updatePlayer({x:event.touches[0].pageX, y: event.touches[0].pageY})
     this.addBullets(true)
   }
@@ -335,7 +352,6 @@ export class CanvasAreaComponent{
       this.addEnemy()
       clearTimeout(levelUp)
     },3000)
-    //this.stopGame()
   }
 
   eofPause(){
@@ -350,9 +366,50 @@ export class CanvasAreaComponent{
 
   stopGame(){
     cancelAnimationFrame(this.animationFrame);
-    clearTimeout(this.intCtrl.enemy)
+    if(this.intCtrl){
+      clearTimeout(this.intCtrl.enemy)
+      clearTimeout(this.intCtrl.enemyBullet)
+    }
     this.animationFrame = null
     this.animate = false;
+    if(this.boss)
+      delete this.boss
     console.log('stopGame!!')
+  }
+
+  drawFinalWin(){
+    this.ctx.clearRect(0,0,this.config.position.width,this.config.position.height)
+    // Draw background
+    this.elementsToDraw.background.draw()
+    // Draw players
+    this.elementsToDraw.player.map((player, index) => {
+      this.drawTXT({
+        x:10,
+        y:30,
+        fillStyle:'white',
+        font: '1.8rem DS DIGI, Arial',
+        textAlign:'left',
+        data: `LIFE: ${(player.life<=0)?0:player.life}`
+      })
+      player.draw()
+    })
+    // Draw score
+    this.drawTXT({
+      x:10,
+      y:50,
+      fillStyle:'white',
+      font: '1.8rem DS DIGI, Arial',
+      textAlign:'left',
+      data: `SCORE: ${this.collCtrl.score.current}`
+    })
+    this.drawTXT({
+      x:this.config.position.width/2,
+      y:this.config.position.height/2,
+      fillStyle:'white',
+      font: '5rem DS DIGIB, Arial',
+      textAlign:'center',
+      data: `END OF GAME`
+    })
+    this.animationFrame = requestAnimationFrame(_=>this.drawFinalWin());
   }
 }

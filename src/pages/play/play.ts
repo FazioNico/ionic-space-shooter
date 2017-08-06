@@ -3,18 +3,21 @@
  * @Date:   25-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 05-08-2017
+ * @Last modified time: 06-08-2017
  */
 
  import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
  import { IonicPage, NavController, NavParams } from 'ionic-angular';
- import { Platform, ActionSheetController, AlertController } from 'ionic-angular';
+ import { ActionSheetController, AlertController } from 'ionic-angular';
  import { NativeAudio } from '@ionic-native/native-audio';
 
  import { Store } from '@ngrx/store'
  import { Observable } from 'rxjs/Rx';
 
  import { State } from "../../store/reducers";
+ import { IConfigStats } from "../../store/reducers/configReducer";
+ import { IPlayerStats } from "../../store/reducers/playerReducer";
+ import { ILevelStats } from "../../store/reducers/levelReducer";
  import { MainActions } from '../../store/actions/mainActions';
 
  import { CanvasAreaComponent } from "../../components/canvas-area/canvas-area";
@@ -48,17 +51,15 @@ export class PlayPage {
 
   @ViewChild(CanvasAreaComponent) ngCanvas:CanvasAreaComponent;
 
-  public storeConfig:Observable<any>;
-  public storeLevel:Observable<any>;
-  public storePlayer:Observable<any>;
+  public storeConfig:Observable<IConfigStats>;
+  public storeLevel:Observable<ILevelStats>;
+  public storePlayer:Observable<IPlayerStats>;
   public bgAudio:HTMLAudioElement;
   public playing:boolean = false
-  public subscribtion:any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public platform: Platform,
     private nativeAudio: NativeAudio,
     private store:Store<any>,
     public actionSheetCtrl: ActionSheetController,
@@ -66,7 +67,7 @@ export class PlayPage {
 
   ) {
     if(!this.navParams.get('ready')){
-      this.resetGame()
+      this.exitGame()
       return
     }
     this.storePlayer = this.store.select((state:State) => state.player)
@@ -129,6 +130,7 @@ export class PlayPage {
 
   canvasEvent(event){
     console.log(event)
+    let alert,to;
     switch (event) {
       case 'levelup':
           console.log('switch levelUp')
@@ -137,46 +139,65 @@ export class PlayPage {
           })
           break;
       case 'gameover':
-           console.log('switch Game Over')
-           let alert = this.alertCtrl.create({
+           console.log('switch Game Over');
+           alert = this.alertCtrl.create({
              subTitle: 'Play again ?',
              buttons: [
               {
                 text: 'Quit',
                 handler: () => {
                   console.log('Quit clicked');
-                  this.resetGame()
+                  this.exitGame()
                 }
               },
               {
                 text: 'Yes',
                 handler: () => {
                   console.log('Yes clicked');
+                  this.resetGame()
                 }
               }
             ]
            });
-           let to = setTimeout(_=> {
+           to = setTimeout(_=> {
              alert.present();
              clearTimeout(to)
            },1500)
            break;
+      case 'endofgame':
+          console.log('switch End Of Game')
+          alert = this.alertCtrl.create({
+            subTitle: 'Save Score ?',
+            buttons: [
+             {
+               text: 'Quit',
+               handler: () => {
+                 console.log('Quit clicked');
+                 this.exitGame()
+               }
+             },
+             {
+               text: 'Yes',
+               handler: () => {
+                 console.log('TODO=>: Yes clicked');
+                 //TODO=>: add save function
+               }
+             }
+           ]
+          });
+          to = setTimeout(_=> {
+            alert.present();
+            clearTimeout(to)
+          },3000)
+          break;
       default: null
     }
   }
-
 
   presentActionSheet() {
     this.ngCanvas.stopGame()
     let actionSheet = this.actionSheetCtrl.create({
       buttons: [
-        // {
-        //   text: 'Pause',
-        //   handler: () => {
-        //     console.log('pause clicked');
-        //     (this.ngCanvas.animate)?this.ngCanvas.stopGame():this.ngCanvas.eofPause()
-        //   }
-        // },
         {
           text: 'Save',
           handler: () => {
@@ -185,17 +206,17 @@ export class PlayPage {
           }
         },
         {
-          text: 'Options',
+          text: 'Reset',
           handler: () => {
-            console.log('Options clicked');
-            // TODO (volume, effect, etc...)
+            console.log('Reset clicked');
+            this.resetGame()
           }
         },
         {
           text: 'Quit',
           handler: () => {
             console.log('Quit clicked');
-            this.resetGame()
+            this.exitGame()
           }
         },
         {
@@ -213,7 +234,6 @@ export class PlayPage {
 
   ionViewDidLeave(){
     console.log('ionViewDidLeave')
-    //this.subscribtion.unsubscribe()
     this.stopGame()
   }
 
@@ -225,11 +245,19 @@ export class PlayPage {
     if(this.ngCanvas){
       this.ngCanvas.stopGame()
       this.ngCanvas.animate = false
-      clearTimeout(this.ngCanvas.intCtrl.enemy)
+      if(this.ngCanvas.intCtrl)
+        clearTimeout(this.ngCanvas.intCtrl.enemy)
     }
   }
 
-  resetGame():void{
+  resetGame():void {
+    this.ngCanvas.stopGame()
+    this.ngCanvas.animate = false
+    clearTimeout(this.ngCanvas.intCtrl.enemy)
+    this.ngCanvas.initGame()
+  }
+
+  exitGame():void{
     this.store.dispatch({
         type: MainActions.INIT,
     });

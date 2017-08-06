@@ -3,7 +3,7 @@
  * @Date:   25-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 04-08-2017
+ * @Last modified time: 06-08-2017
  */
 
  import { Action } from '@ngrx/store';
@@ -19,10 +19,6 @@
       height:number,
       platform:boolean
     },
-    levels:{
-      current:number,
-      config?:ILevels
-    },
     imgDatas?:string[]
  }
 
@@ -33,10 +29,6 @@
       width:800,
       height:600,
       platform:true
-    },
-    levels:{
-      current:0,
-      config:LEVELS
     },
     imgDatas: []
  }

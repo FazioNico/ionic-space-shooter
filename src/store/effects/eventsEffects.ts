@@ -3,11 +3,11 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 04-08-2017
+ * @Last modified time: 06-08-2017
 */
 
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/observable/fromEvent';
@@ -21,6 +21,7 @@ import 'rxjs/add/operator/debounce';
 import 'rxjs/add/operator/pluck';
 
 import { MainActions } from '../actions/mainActions';
+import { State } from '../reducers';
 import { HttpService } from "../services/http-service";
 
 @Injectable()
@@ -28,6 +29,7 @@ export class EventsEffects {
 
   constructor(
     private action$: Actions,
+    private store$: Store<State>,
     private _http: HttpService
   ) {}
 
@@ -44,7 +46,6 @@ export class EventsEffects {
        return  { type: MainActions.MOUSE_MOVING, payload: {x:event.clientX, y:event.clientY} }
       })
 
-
   @Effect() initKeyPress$:Observable<Action> = this.action$
       // Listen for the 'KEY_PRESS' action
       .ofType(MainActions.KEY_PRESS)
@@ -57,14 +58,15 @@ export class EventsEffects {
       .map((keyCode:number) =>{
        return  { type: MainActions.KEY_PRESS, payload: {keyCode:keyCode, time:Date.now()} }
       })
+      
 
   @Effect() loadImage$:Observable<Action> = this.action$
       .ofType(MainActions.IMG_LOAD)
       .map<Action, any>(toPayload)
-      .switchMap((payload:Observable<any>)=>{
+      .switchMap((payload:string[])=>{
         return Observable.from(payload)
       })
-      .concatMap(url=> {
+      .concatMap((url:string)=> {
         //console.log(url)
         return Observable.create((observer)=>{
            let img = new Image();
@@ -87,5 +89,34 @@ export class EventsEffects {
       .map<Action, any>(toPayload)
       .switchMap((payload:Observable<any>) => {
         return this._http.getDatas(payload)
+      })
+
+  @Effect() setLevelAction$ = this.action$
+      // Listen for the 'SET_LEVEL' action
+      .ofType(MainActions.SET_LEVEL)
+      .withLatestFrom(this.store$)
+      .switchMap(([payload,state]) => {
+        let imgArray:string[] = []
+        for (let key in state.level.config) {
+          if (state.level.config[key].hasOwnProperty('imgUrl') && state.level.config[key].imgUrl.length >0)
+             imgArray = [...imgArray, state.level.config[key].imgUrl]
+        }
+        return Observable.create((observer) => {
+          observer.next({ type: MainActions.IMG_LOAD, payload: imgArray })
+        })
+      })
+
+      // .map<Action, any>(toPayload)
+      // .switchMap((payload:Observable<any>) => {
+      //   console.log(this.action$)
+      //   return this._http.getLevelIMG(payload)
+      // })
+
+  @Effect() updateLevelAction$ = this.action$
+      .ofType(MainActions.LEVEL_UPDATE)
+      .switchMap(_=>{
+       return Observable.create((observer) => {
+         observer.next({ type: MainActions.SET_LEVEL, payload: null })
+       })
       })
 }

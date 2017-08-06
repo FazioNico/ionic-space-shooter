@@ -3,7 +3,7 @@
  * @Date:   25-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 29-07-2017
+ * @Last modified time: 06-08-2017
  */
 
 
@@ -35,5 +35,8 @@
 
    static LEVEL_UPDATE = '[LEVEL]-LEVEL_UPDATE'
 
+
+   static SET_LEVEL = '[LEVEL]-SET_LEVEL'
+   static IMG_GET_LIST = '[IMAGES]-GET_LIST'
 
  }

@@ -3,7 +3,7 @@
  * @Date:   22-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 01-08-2017
+ * @Last modified time: 06-08-2017
  */
 
 
@@ -20,9 +20,11 @@ export class ManageCollision {
   public result:any;
   public gameOver:boolean;
   public audio:any;
+
+  public collision:{active:boolean, x?:number, y?:number} = {active: false}
   //public imgData:IImgData = { explosion:[]};
 
-  constructor(ctx:CanvasRenderingContext2D,elementsToDraw:any[], score:number){
+  constructor(ctx:CanvasRenderingContext2D,elementsToDraw:any, score:number){
     this.ctx = ctx
     this.elementsToDraw = elementsToDraw
     this.detector = new DetectCollision(this.elementsToDraw)
@@ -103,6 +105,7 @@ export class ManageCollision {
       //  console.log('current score', result.cible.power , this.score.current);
       result.candidate.life = result.candidate.life - result.cible.power;
 
+      this.drawExplosion(result.cible.x, result.cible.y)
       // let exp = new Explosion(this.ctx, result.cible.x, result.cible.y, this.imgData.explosion)
       // this.elementsToDraw.explosion.push(exp);
 
@@ -129,6 +132,7 @@ export class ManageCollision {
       //  console.log('current score', result.cible.power , this.score.current);
       result.candidate.life = result.candidate.life - result.cible.power;
 
+      this.drawExplosion(result.cible.x, result.cible.y)
       // let exp = new Explosion(this.ctx, result.cible.x, result.cible.y, this.imgData.explosion)
       // this.elementsToDraw.explosion.push(exp);
 
@@ -150,6 +154,8 @@ export class ManageCollision {
 
   player_VS_enemyBullet(result){
     //console.log('player VS enemy bullet')
+    this.drawExplosion(result.cible.x, result.cible.y)
+
     this.audio.explosion.currentTime = 0;
     this.audio.explosion.play()
     this.audio.explosion.volume=0.1
@@ -180,6 +186,12 @@ export class ManageCollision {
   updateScore(point:number){
     this.score.current += point
     //console.log('updateScore',this.score.current)
+  }
+
+  drawExplosion(x:number, y:number){
+    this.collision.active = true
+    this.collision.x = x
+    this.collision.y = y
   }
 
   removeElement(collection:string, element:any,index:number, touch:boolean):void{
