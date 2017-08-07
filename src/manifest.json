@@ -1,6 +1,6 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "Ionic Space Shooter",
+  "short_name": "Ionic Space Shooter",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
