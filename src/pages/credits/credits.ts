@@ -33,4 +33,8 @@ export class CreditsPage {
     console.log('ionViewDidLoad CreditsPage');
   }
 
+  openWindow(url:string):void{
+    window.open(url, '_system');
+  }
+
 }
