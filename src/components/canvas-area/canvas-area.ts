@@ -76,7 +76,7 @@ export class CanvasAreaComponent{
   public eventEmited:boolean;
   public animate:boolean;
   public animationFrame:any;
-  public intCtrl: {enemy:number, enemyBullet:number}
+  public intCtrl: {enemy:number, enemyBullet:number, bossBullet:number}
   public collCtrl:ManageCollision;
   public quadtree:Quadtree;
 
@@ -90,7 +90,7 @@ export class CanvasAreaComponent{
     this.drawLevelUp = false
     this.eventEmited = false
     this.animate = true
-    this.intCtrl = {enemy:null, enemyBullet:null};
+    this.intCtrl = {enemy:null, enemyBullet:null, bossBullet:null};
     // init quadTree
     this.quadtree = new Quadtree({
     	x: 0,
@@ -117,10 +117,16 @@ export class CanvasAreaComponent{
     window['player'] = this.player
     //add enemy
     this.addEnemy()
+    // add enemy bullet
     this.intCtrl.enemyBullet =  setInterval(_=> {
                                 // init enemy's Shot (bullet)
                                 this.addBullets(false)
                               },1800)
+    // add Boss bullet
+    this.intCtrl.bossBullet =  setInterval(_=> {
+                                // init enemy's Shot (bullet)
+                                this.addBullets(false,true)
+                              },800)
     // Init collision manager with all elements to draw + score .
     this.collCtrl = new ManageCollision(this.ctx, this.elementsToDraw, 0)
     // init draw
@@ -269,12 +275,12 @@ export class CanvasAreaComponent{
     },delay);
   }
 
-  addBullets(player:boolean):void{
+  addBullets(isPlayer:boolean,isBoss:boolean = false):void{
     if(!this.elementsToDraw.player[0] || this.elementsToDraw.player[0].life <= 0){
       return
     }
     let bullets:any[] = [];
-    if(player){
+    if(isPlayer){
       // player bullets
       bullets = [
         ...bullets,
@@ -284,7 +290,7 @@ export class CanvasAreaComponent{
       // add bullets to elementsToDraw
       this.elementsToDraw.bullet.push(...bullets)
     }
-    else {
+    if(!isPlayer && !isBoss) {
       // enemy bullets
       if(this.elementsToDraw.enemy.length === 0){
         return
@@ -294,6 +300,27 @@ export class CanvasAreaComponent{
           bullets = [
             ...bullets,
             new Bullet(this.ctx, element.x+30, element.y+40, this.level.config.enemys.bullet.speed, 'red', false),
+          ]
+      })
+      // add bullets to elementsToDraw
+      this.elementsToDraw.enemyBullet.push(...bullets)
+    }
+
+    if(!isPlayer && isBoss) {
+      // boss bullets
+      if(!this.elementsToDraw.boss || this.elementsToDraw.boss.length === 0){
+        return
+      }
+      console.log('boss bullets')
+      this.elementsToDraw.boss.map((element, index) => {
+          if(!element.x && !element.y)return;
+          bullets = [
+            ...bullets,
+            new Bullet(this.ctx, (element.x+element.width/2)-40, element.y+element.height/2, this.level.config.enemys.bullet.speed, 'orange', false, {width:3, height:15}),
+            new Bullet(this.ctx, (element.x+element.width/2)-20, element.y+element.height/2, this.level.config.enemys.bullet.speed, 'orange', false, {width:3, height:15}),
+            new Bullet(this.ctx, (element.x+element.width/2), element.y+element.height/2, this.level.config.enemys.bullet.speed, 'orange', false, {width:3, height:15}),
+            new Bullet(this.ctx, (element.x+element.width/2)+20, element.y+element.height/2, this.level.config.enemys.bullet.speed, 'orange', false, {width:3, height:15}),
+            new Bullet(this.ctx, (element.x+element.width/2)+40, element.y+element.height/2, this.level.config.enemys.bullet.speed, 'orange', false, {width:3, height:15}),
           ]
       })
       // add bullets to elementsToDraw
@@ -361,6 +388,10 @@ export class CanvasAreaComponent{
                                 // init enemy's Shot (bullet)
                                 this.addBullets(false)
                               },1800)
+    this.intCtrl.bossBullet =  setInterval(_=> {
+                                // init enemy's Shot (bullet)
+                                this.addBullets(false, true)
+                              },800)
     this.drawElements()
   }
 
@@ -369,6 +400,7 @@ export class CanvasAreaComponent{
     if(this.intCtrl){
       clearTimeout(this.intCtrl.enemy)
       clearTimeout(this.intCtrl.enemyBullet)
+      clearTimeout(this.intCtrl.bossBullet)
     }
     this.animationFrame = null
     this.animate = false;
