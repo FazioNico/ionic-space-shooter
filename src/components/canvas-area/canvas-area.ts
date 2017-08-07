@@ -399,8 +399,8 @@ export class CanvasAreaComponent{
     cancelAnimationFrame(this.animationFrame);
     if(this.intCtrl){
       clearTimeout(this.intCtrl.enemy)
-      clearTimeout(this.intCtrl.enemyBullet)
-      clearTimeout(this.intCtrl.bossBullet)
+      clearInterval(this.intCtrl.enemyBullet)
+      clearInterval(this.intCtrl.bossBullet)
     }
     this.animationFrame = null
     this.animate = false;
