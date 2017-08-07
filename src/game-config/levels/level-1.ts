@@ -3,7 +3,7 @@
  * @Date:   26-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 03-08-2017
+ * @Last modified time: 07-08-2017
  */
 
 import { ILevel } from "./levels";
@@ -22,10 +22,10 @@ export const LEVEL_1:ILevel = {
       imgUrl: '',
       speed: 1.8
     },
-    maxScore: 250,
+    maxScore: 2500,
     boss: {
-      imgUrl: '',
-      speed: 1,
+      imgUrl: './assets/img/boss-02.png',
+      speed: 1.8,
       life: 800,
       power:350
     }
