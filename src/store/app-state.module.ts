@@ -3,7 +3,7 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 27-07-2017
+ * @Last modified time: 07-08-2017
 */
 
 import { NgModule } from '@angular/core';
@@ -16,6 +16,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 // Import ngRx Store App
 import { reducer } from './reducers';
 import { EventsEffects } from './effects/eventsEffects';
+import { LevelEffects } from './effects/levelEffects';
 import { MainActions } from './actions/mainActions';
 import { HttpService } from "./services/http-service";
 // Define const
@@ -24,7 +25,8 @@ const providers:Array<any> =  [
   HttpService
 ];
 const effects:Array<any> = [
-  EventsEffects
+  EventsEffects,
+  LevelEffects
 ];
 const actions:Array<any> = [
   MainActions
@@ -33,7 +35,7 @@ const actions:Array<any> = [
 @NgModule({
   imports: [
     HttpModule,
-    EffectsModule.forRoot([EventsEffects]),
+    EffectsModule.forRoot([EventsEffects, LevelEffects]),
     StoreModule.forRoot(reducer,  {
       metaReducers: [storeFreeze]
     }),

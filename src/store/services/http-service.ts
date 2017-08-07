@@ -3,7 +3,7 @@
 * @Date:   27-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 06-08-2017
+ * @Last modified time: 07-08-2017
 */
 
 
@@ -43,16 +43,4 @@ export class HttpService {
       })
     }
 
-
-    // getLevelIMG(payload):Observable<any>{
-    //   let imgArray:string[] = []
-    //   for (let key in payload.config) {
-    //       if (payload.config[key].hasOwnProperty('imgUrl') && payload.config[key].imgUrl.length >0)
-    //          //console.log(payload.config[key].imgUrl)
-    //          imgArray = [...imgArray, payload.config[key].imgUrl]
-    //   }
-    //   return Observable.create((observer) => {
-    //     observer.next({ type: MainActions.IMG_LOAD, payload: imgArray })
-    //   })
-    // }
   }
