@@ -87,7 +87,7 @@ export class CanvasAreaComponent{
   ){
   }
 
-  initGame() {
+  initGame():void {
     this.drawLevelUp = false
     this.eventEmited = false
     this.animate = true
@@ -129,8 +129,8 @@ export class CanvasAreaComponent{
     this.drawElements()
   }
 
-  drawElements(){
-    console.log(this.level.maxLevel, this.level.current)
+  drawElements():void{
+    //console.log(this.level.maxLevel, this.level.current)
     if(!this.animate )return ;
     if(this.level.maxLevel <= this.level.current){
       this.stopGame()
@@ -253,7 +253,7 @@ export class CanvasAreaComponent{
     this.animationFrame = requestAnimationFrame(_=>this.drawElements());
   }
 
-  drawTXT(txt:{x:number,y:number,fillStyle:string, font:string,textAlign:string, data:string}){
+  drawTXT(txt:{x:number,y:number,fillStyle:string, font:string,textAlign:string, data:string}):void{
     this.ctx.beginPath();
     this.ctx.fillStyle = txt.fillStyle;
     this.ctx.font = txt.font;
@@ -261,7 +261,7 @@ export class CanvasAreaComponent{
     this.ctx.fillText(txt.data,txt.x,txt.y);
   }
 
-  addEnemy(){
+  addEnemy():void{
     let delay:number =  Math.floor(Math.random()*(3000-500+1)+500);
     let x:number =  Math.floor(Math.random()*this.config.position.width);
     this.intCtrl.enemy = setTimeout( ()=> {
@@ -270,7 +270,7 @@ export class CanvasAreaComponent{
     },delay);
   }
 
-  addBullets(player:boolean){
+  addBullets(player:boolean):void{
     if(!this.elementsToDraw.player[0] || this.elementsToDraw.player[0].life <= 0){
       return
     }
@@ -288,10 +288,10 @@ export class CanvasAreaComponent{
     else {
       // enemy bullets
       if(this.elementsToDraw.enemy.length === 0){
-        return false
+        return
       }
       this.elementsToDraw.enemy.map((element, index) => {
-          if(!element.x && !element.y)return false;
+          if(!element.x && !element.y)return;
           bullets = [
             ...bullets,
             new Bullet(this.ctx, element.x+30, element.y+40, this.level.config.enemys.bullet.speed, 'red', false),
@@ -304,6 +304,7 @@ export class CanvasAreaComponent{
     // this.audio.bullet.default.play()
 
   }
+
   updatePlayer(position:{x:number,y:number}):void{
     if(!position || !this.elementsToDraw || !this.elementsToDraw.player[0]){
       return
@@ -332,16 +333,16 @@ export class CanvasAreaComponent{
     this.collCtrl.removeElement(collection,element,index, touch)
   }
 
-  handleStart(event){
+  handleStart(event):void{
     this.updatePlayer({x:event.touches[0].pageX, y: event.touches[0].pageY})
     this.addBullets(true)
   }
 
-  handleMove(event){
+  handleMove(event):void{
     this.updatePlayer({x:event.touches[0].pageX, y: event.touches[0].pageY})
   }
 
-  levelUp(){
+  levelUp():void{
     console.log('levelUp!!')
     this.onEvents.emit('levelup')
     clearTimeout(this.intCtrl.enemy)
@@ -354,7 +355,7 @@ export class CanvasAreaComponent{
     },3000)
   }
 
-  eofPause(){
+  eofPause():void{
     this.animate = true;
     this.addEnemy()
     this.intCtrl.enemyBullet =  setInterval(_=> {
@@ -364,7 +365,7 @@ export class CanvasAreaComponent{
     this.drawElements()
   }
 
-  stopGame(){
+  stopGame():void{
     cancelAnimationFrame(this.animationFrame);
     if(this.intCtrl){
       clearTimeout(this.intCtrl.enemy)
@@ -377,7 +378,7 @@ export class CanvasAreaComponent{
     console.log('stopGame!!')
   }
 
-  drawFinalWin(){
+  drawFinalWin():void{
     this.ctx.clearRect(0,0,this.config.position.width,this.config.position.height)
     // Draw background
     this.elementsToDraw.background.draw()
