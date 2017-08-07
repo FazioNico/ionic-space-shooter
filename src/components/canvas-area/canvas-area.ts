@@ -81,7 +81,6 @@ export class CanvasAreaComponent{
   public quadtree:Quadtree;
 
   constructor(
-    private el: ElementRef,
     public renderer: Renderer,
     private store:Store<any>
   ){
