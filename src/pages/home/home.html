@@ -4,9 +4,11 @@
     <div class="dCell">
       <h1 margin-bottom >Ionic Space Shooter</h1>
       <p class="sub-title">- Main Menu -</p>
-      <button ion-button block (click)="goSpaceShooter($event)">Start Game</button>
-      <button ion-button block (click)="goLogin($event)">Login</button>
-      <button ion-button block (click)="credits($event)">Credits</button>
+      <div class="container">
+        <button ion-button block (click)="goSpaceShooter($event)">Start Game</button>
+        <button ion-button block (click)="goLogin($event)">Login</button>
+        <button ion-button block (click)="credits($event)">Credits</button>
+      </div>
     </div>
   </div>
 </ion-content>

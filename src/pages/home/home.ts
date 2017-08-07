@@ -3,7 +3,7 @@
  * @Date:   30-05-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 05-08-2017
+ * @Last modified time: 07-08-2017
  */
 
 import { Component, OnInit } from '@angular/core';
@@ -46,6 +46,6 @@ export class HomePage implements OnInit {
   }
 
   credits():void{
-    alert('TODO')
+    this.navCtrl.push('CreditsPage')
   }
 }

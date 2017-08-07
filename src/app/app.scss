@@ -2,7 +2,7 @@
 // @Date:   24-07-2017
 // @Email:  contact@nicolasfazio.ch
 // @Last modified by:   webmaster-fazio
-// @Last modified time: 06-08-2017
+// @Last modified time: 07-08-2017
 
 // http://ionicframework.com/docs/theming/
 
@@ -42,6 +42,10 @@ p, li, a, button {
   font-family: 'DS DIGI';
 }
 
+.header-md::after {
+  background-image: none;
+}
+
 ion-content {
   color: #fff!important;
   background: #1c1c1c!important;
@@ -57,7 +61,10 @@ ion-content {
   width: 100%;
   vertical-align: middle;
 }
-
+.container {
+  max-width:600px;
+  margin: auto;
+}
 .button-block-md {
     margin-left: 0;
     margin-right: 0;
