@@ -48,4 +48,8 @@ export class HomePage implements OnInit {
   credits():void{
     this.navCtrl.push('CreditsPage')
   }
+
+  topScore():void{
+    alert('TODO')
+  }
 }
