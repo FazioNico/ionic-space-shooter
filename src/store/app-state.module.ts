@@ -17,8 +17,16 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { reducer } from './reducers';
 import { EventsEffects } from './effects/eventsEffects';
 import { LevelEffects } from './effects/levelEffects';
+import { authEffects } from './effects/authEffects';
 import { MainActions } from './actions/mainActions';
 import { HttpService } from "./services/http-service";
+
+// AngularFire2
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { FB_CONFIG } from "./store.config";
+
 // Define const
 const providers:Array<any> =  [
   MainActions,
@@ -26,7 +34,8 @@ const providers:Array<any> =  [
 ];
 const effects:Array<any> = [
   EventsEffects,
-  LevelEffects
+  LevelEffects,
+  authEffects
 ];
 const actions:Array<any> = [
   MainActions
@@ -35,11 +44,14 @@ const actions:Array<any> = [
 @NgModule({
   imports: [
     HttpModule,
-    EffectsModule.forRoot([EventsEffects, LevelEffects]),
+    EffectsModule.forRoot([EventsEffects, LevelEffects, authEffects]),
     StoreModule.forRoot(reducer,  {
       metaReducers: [storeFreeze]
     }),
-    StoreDevtoolsModule.instrument()
+    StoreDevtoolsModule.instrument(),
+    AngularFireModule.initializeApp(FB_CONFIG),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   declarations: [],
   providers: [...providers, ...effects, ...actions]
