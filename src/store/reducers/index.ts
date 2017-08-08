@@ -45,4 +45,5 @@ export const REDUCERS: ActionReducerMap<State> = {
 const developmentReducer:ActionReducerMap<State> = REDUCERS //compose(storeFreeze, combineReducers)(REDUCERS);
 const productionReducer: ActionReducerMap<State> = REDUCERS;
 
-export const reducer:ActionReducerMap<State> = process.env.IONIC_ENV === 'prod' ? productionReducer :  developmentReducer;
+//export const reducer:ActionReducerMap<State> = process.env.IONIC_ENV === 'prod' ? productionReducer :  developmentReducer;
+export const reducer:ActionReducerMap<State> = productionReducer

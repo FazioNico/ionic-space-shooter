@@ -2,7 +2,7 @@
 // @Date:   24-07-2017
 // @Email:  contact@nicolasfazio.ch
 // @Last modified by:   webmaster-fazio
-// @Last modified time: 07-08-2017
+// @Last modified time: 08-08-2017
 
 // http://ionicframework.com/docs/theming/
 
@@ -25,14 +25,16 @@
   font-family: 'DS DIGI';
   font-weight: normal;
   font-style: normal;
-  src: url('../assets/fonts/ds_digital/DS-DIGI.woff2') format('woff2')
+  src: url('../assets/fonts/ds_digital/DS-DIGI.woff2') format('woff2'),
+       url('../assets/fonts/ds_digital/DS-DIGI.ttf') format('truetype')
 }
 
 @font-face {
   font-family: 'DS DIGIB';
   font-weight: normal;
   font-style: normal;
-  src: url('../assets/fonts/ds_digital/DS-DIGIB.woff2') format('woff2')
+  src: url('../assets/fonts/ds_digital/DS-DIGIB.woff2') format('woff2'),
+       url('../assets/fonts/ds_digital/DS-DIGIB.ttf') format('truetype')
 }
 
 h1, h2, h3, h4, h5, h6 {

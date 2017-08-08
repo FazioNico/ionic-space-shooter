@@ -1,33 +1,41 @@
 
-
+<ion-header>
+  <ion-navbar color="transparent"></ion-navbar>
+</ion-header>
 <ion-content padding>
 
   <div class="dTable" text-center>
     <div class="dCell">
       <h1>Hi {{user?.email || 'new player'}} !</h1>
-      <p>Select your Ship to start</p>
       <div class="container">
-        <ion-grid>
-          <ion-row #row>
+        <div *ngIf="(storeImgPlayer|async);else loading">
+          <p>Select your Ship to start</p>
+          <ion-grid>
+            <ion-row #row>
 
-            <ion-col
-              #col
-              *ngFor="let imgUrl of (storeImgPlayer|async)"
-              padding>
-                <img
-                  id="{{ imgUrl.split('/').reverse()[0].split('.')[0] }}"
-                  src="{{ imgUrl }}"
-                  alt=""
-                  (click)="selectShipe($event,col)">
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        <button
-          [disabled]="!selectedShipe"
-          ion-button
-          block
-          margin-vertical
-          (click)="startGame()">Play</button>
+              <ion-col
+                #col
+                *ngFor="let imgUrl of (storeImgPlayer|async)"
+                padding>
+                  <img
+                    id="{{ imgUrl.split('/').reverse()[0].split('.')[0] }}"
+                    src="{{ imgUrl }}"
+                    alt=""
+                    (click)="selectShipe($event,col)">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <button
+            [disabled]="!selectedShipe"
+            ion-button
+            block
+            margin-vertical
+            (click)="startGame()">Play</button>
+        </div>
+        <ng-template #loading>
+          <p>loading...</p>
+          <ion-spinner color="light" name="bubbles"></ion-spinner>
+        </ng-template>
       </div>
 
     </div>
