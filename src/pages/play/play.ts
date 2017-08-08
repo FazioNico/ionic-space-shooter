@@ -3,7 +3,7 @@
  * @Date:   25-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 06-08-2017
+ * @Last modified time: 08-08-2017
  */
 
  import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
@@ -140,6 +140,21 @@ export class PlayPage {
           break;
       case 'gameover':
            console.log('switch Game Over');
+           if(this.navParams.get('user')){
+             this.store.dispatch({
+               type: 'SAVE_MAX_SCORE',
+               payload: {
+                 type: 'set',
+                 collection: 'score',
+                 uid:this.navParams.get('user').id,
+                 user: this.navParams.get('user'),
+                 datas:{
+                   current:this.ngCanvas.collCtrl.score.current || 0
+                 }
+               }
+             })
+           }
+
            alert = this.alertCtrl.create({
              subTitle: 'Play again ?',
              buttons: [
@@ -198,13 +213,13 @@ export class PlayPage {
     this.ngCanvas.stopGame()
     let actionSheet = this.actionSheetCtrl.create({
       buttons: [
-        {
-          text: 'Save',
-          handler: () => {
-            console.log('Save clicked');
-            // TODO (save player setting, level & score)
-          }
-        },
+        // {
+        //   text: 'Save',
+        //   handler: () => {
+        //     console.log('Save clicked');
+        //     // TODO (save player setting, level & score)
+        //   }
+        // },
         {
           text: 'Reset',
           handler: () => {

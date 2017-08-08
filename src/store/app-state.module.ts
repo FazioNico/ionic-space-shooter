@@ -3,7 +3,7 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 07-08-2017
+ * @Last modified time: 08-08-2017
 */
 
 import { NgModule } from '@angular/core';
@@ -18,6 +18,7 @@ import { reducer } from './reducers';
 import { EventsEffects } from './effects/eventsEffects';
 import { LevelEffects } from './effects/levelEffects';
 import { authEffects } from './effects/authEffects';
+import { datasbaseEffects } from './effects/databaseEffects';
 import { MainActions } from './actions/mainActions';
 import { HttpService } from "./services/http-service";
 
@@ -35,7 +36,8 @@ const providers:Array<any> =  [
 const effects:Array<any> = [
   EventsEffects,
   LevelEffects,
-  authEffects
+  authEffects,
+  datasbaseEffects
 ];
 const actions:Array<any> = [
   MainActions
@@ -44,7 +46,7 @@ const actions:Array<any> = [
 @NgModule({
   imports: [
     HttpModule,
-    EffectsModule.forRoot([EventsEffects, LevelEffects, authEffects]),
+    EffectsModule.forRoot(effects),
     StoreModule.forRoot(reducer,  {
       metaReducers: [storeFreeze]
     }),

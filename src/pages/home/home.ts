@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, Modal, ModalController, IonicPage } from 'ionic-angular';
 
 import { Store, Action } from '@ngrx/store'
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 import { State } from "../../store/reducers";
 import { IAuthState } from "../../store/reducers/authReducer";
@@ -28,6 +28,7 @@ export class HomePage implements OnInit {
 
   public storeInfo:Observable<State>;
   public userInfo:Observable<IAuthState>
+  public nav$:Subscription
 
   constructor(
     public navCtrl:NavController,
@@ -37,7 +38,7 @@ export class HomePage implements OnInit {
   ) {
     this.storeInfo = this.store.select((state:State) => state)
     this.userInfo = this.store.select((state:State) => state.auth)
-    this.store.select((state:State) => state.nav).subscribe((page) => {
+    this.nav$ = this.store.select((state:State) => state.nav).subscribe((page) => {
         if(page){
           console.log(page)
           let modal:Modal = this.modalCtrl.create(page);
@@ -54,8 +55,9 @@ export class HomePage implements OnInit {
     this.store.dispatch(<Action>this.mainActions.checkAuth())
   }
 
-  goSpaceShooter(event):void{
-    this.navCtrl.push('SelectPlayerPage')
+  goSpaceShooter(event, user:{id:string, email:string} | null):void{
+    console.log(user)
+    this.navCtrl.push('SelectPlayerPage', (user)? {user: user}: null)
   }
 
   doLogout():void{
@@ -73,4 +75,9 @@ export class HomePage implements OnInit {
   topScore():void{
     alert('TODO')
   }
+
+  ionViewDidLeave():void{
+    this.nav$.unsubscribe()
+  }
+
 }

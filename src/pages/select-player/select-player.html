@@ -4,7 +4,8 @@
 
   <div class="dTable" text-center>
     <div class="dCell">
-      <h1>Select your Ship</h1>
+      <h1>Hi {{user?.email || 'new player'}} !</h1>
+      <p>Select your Ship to start</p>
       <div class="container">
         <ion-grid>
           <ion-row #row>
@@ -28,7 +29,7 @@
           margin-vertical
           (click)="startGame()">Play</button>
       </div>
-      
+
     </div>
   </div>
 

@@ -8,7 +8,7 @@
 
 
 import { Component, OnInit, ViewChildren, ElementRef, Renderer, QueryList } from '@angular/core';
-import { IonicPage, NavController, Col } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Col } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 
 import { Store } from '@ngrx/store'
@@ -40,20 +40,35 @@ export class SelectPlayerPage implements OnInit{
     public storeImgPlayer:Observable<IPlayerStats>;
     public subscribtion:Subscription;
     public selectedShipe:string;
+    public user:{id:string,email:string}
 
     constructor(
     public navCtrl:NavController,
+    public navParams: NavParams,
     private store:Store<State>,
     public platform: Platform,
     public renderer: Renderer
   ){
     console.log('Hello SelectPlayerPage')
-
+    this.user = this.navParams.get('user');
     this.subscribtion = this.store.select((state:State) => state.player)
                                   .subscribe(status => {
                                    //console.log('subs', status)
                                     if(status.id){
-                                      this.navCtrl.push('PlayPage',{ready:true})
+                                      // save player settings if user Auth
+                                      if(this.navParams.get('user')){
+                                        this.store.dispatch({
+                                          type: 'SAVE_DATA',
+                                          payload: {
+                                            type: 'set',
+                                            collection: 'players',
+                                            uid:this.navParams.get('user').id,
+                                            datas:status
+                                          }
+                                        })
+                                      }
+
+                                      this.navCtrl.push('PlayPage',(this.navParams.get('user'))?{ready:true,user:this.navParams.get('user')}: {ready:true})
                                     }
                                   })
 

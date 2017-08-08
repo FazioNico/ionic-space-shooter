@@ -5,14 +5,15 @@
       <h1 margin-bottom >Ionic Space Shooter</h1>
       <p class="sub-title">- Main Menu -</p>
       <div class="container">
-        <button ion-button block (click)="goSpaceShooter($event)">Start Game</button>
-        <button ion-button block (click)="topScore($event)">Top Scores</button>
-        <div *ngIf="userInfo|async; let userInfo; else signup">
-          <button ion-button block (click)="doLogout()">Logout</button>
+        <div *ngIf="userInfo|async; let user; else signup">
+            <button ion-button block (click)="goSpaceShooter($event, user)">Start Game</button>
+            <button ion-button block (click)="doLogout()">Logout</button>
         </div>
         <ng-template #signup>
+          <button ion-button block (click)="goSpaceShooter($event, null)">Start Game</button>
           <button ion-button block (click)="doSignin()">Signin / Login</button>
         </ng-template>
+        <button ion-button block (click)="topScore($event)">Top Scores</button>
         <button ion-button block (click)="credits($event)">Credits</button>
       </div>
     </div>
