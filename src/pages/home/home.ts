@@ -73,7 +73,7 @@ export class HomePage implements OnInit {
   }
 
   topScore():void{
-    alert('TODO')
+    this.navCtrl.push('TopScoresPage')
   }
 
   ionViewDidLeave():void{

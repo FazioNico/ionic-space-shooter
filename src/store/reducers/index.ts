@@ -16,6 +16,7 @@ import * as fromLevel from './levelReducer';
 import * as fromError from './errorReducer';
 import * as fromAuth from './authReducer';
 import * as fromNav from './navigationReducer';
+import * as fromDB from './databaseReducer';
 
 declare var process:any;
 
@@ -26,6 +27,7 @@ export interface State {
   config: fromConfig.IConfigStats;
   player: fromPlayer.IPlayerStats;
   level: fromLevel.ILevelStats;
+  db: fromDB.IDatabaseState;
   error: fromError.IErrorState;
 }
 
@@ -35,6 +37,7 @@ export const REDUCERS: ActionReducerMap<State> = {
   auth: fromAuth.reducer,
   player: fromPlayer.reducer,
   level: fromLevel.reducer,
+  db: fromDB.reducer,
   config: fromConfig.reducer,
   error: fromError.reducer
 };

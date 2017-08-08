@@ -111,7 +111,7 @@
          return this._db$.list(`maxScore`)
                          .take(1)
                          .switchMap(res=> {
-                           let filtred = res.sort((a,b) => a.score - b.score ).reverse().slice(0, 2);
+                           let filtred = res.sort((a,b) => a.score - b.score ).reverse().slice(0, 10);
                            console.log('CLEAN_RECORS->', filtred)
                            this._db$.database.ref(`maxScore`)
                                              .set(filtred);
