@@ -3,7 +3,7 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 06-08-2017
+ * @Last modified time: 08-08-2017
 */
 
 
@@ -97,7 +97,7 @@ export class SelectPlayerPage implements OnInit{
             datas:{width:this.platform.width(),height:this.platform.height(), platform:this.platform.is('core')}
           }
         })
-        
+
         // Events traking not working proprely with ngrx: performance CPU worning.
         //console.log(this.platform.is('core'))
         // this.store.dispatch({
