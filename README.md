@@ -1,10 +1,12 @@
 # Ionic Space Shooter
-<blockquote>80's arcade game build with Ionic Framework => [try browser demo](https://ionic-space-shooter.firebaseapp.com/#/home) </blockquote>
+<blockquote>80's arcade game build with Ionic Framework</blockquote>
 
 ## Overview
 ***This personal project is currently under development***
 
 Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework with ngrx @store/effects to manage game state and Electron Framework to provide full multi platform application (iOS/Android platform + Web Browser platform + Desktop platform).
+
+=> [try browser demo](https://ionic-space-shooter.firebaseapp.com/#/home)
 
 ## Prerequisites
 - NVM - [Download](https://github.com/creationix/nvm) & Install Node Version Manage
