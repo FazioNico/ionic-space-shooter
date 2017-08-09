@@ -1,5 +1,5 @@
 # Ionic Space Shooter
-<blockquote>80's arcade game build with Ionic Framework</blockquote>
+<blockquote>80's arcade game build with Ionic Framework => [try browser demo](https://ionic-space-shooter.firebaseapp.com/#/home) </blockquote>
 
 ## Overview
 ***This personal project is currently under development***
@@ -26,9 +26,16 @@ Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework
 - build platform with `$ ionic cordova build ios||browser`
 - deploy browser platform with Firebase Hosting by runing `$ firebase deploy`
 
-## Have to do
+## Have todo
+- [ ] add all action into static proprety: [src/store/actions/mainActions.ts](src/store/actions/mainActions.ts)
+- [ ] check if user is log.. and propose signin if not: [src/pages/play/play.ts](src/pages/play/play.ts)
+- [ ] display confirmation score save: [src/pages/play/play.ts](src/pages/play/play.ts)
+- [ ] Fix bug with IOS. audio not playing.. : [src/pages/play/play.ts](src/pages/play/play.ts)
+- [ ] save player setting, level & score: [src/pages/play/play.ts](src/pages/play/play.ts)
+- [ ] remove static img load and use Store datas
 
-## Have to fix
+## Have tofix
+- [ ] `$ ionic cordova build browser --prod` currently not working
 
 ## About author
 Hi, i'm a Front-end developper living in Geneva Switzerland and i build hybrid mobile & web applications for almost 15 years. You can follow me on Twitter @FazioNico or checkout my own website http://nicolasfazio.ch
