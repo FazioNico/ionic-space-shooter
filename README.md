@@ -35,6 +35,7 @@ Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework
 - [ ] Fix bug with IOS. audio not playing.. : [src/pages/play/play.ts](src/pages/play/play.ts)
 - [ ] save player setting, level & score: [src/pages/play/play.ts](src/pages/play/play.ts)
 - [ ] remove static img load and use Store datas
+- [ ] add electron.js
 
 ## Have tofix
 - [ ] `$ ionic cordova build browser --prod` currently not working
