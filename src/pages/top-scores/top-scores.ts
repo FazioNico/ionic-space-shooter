@@ -3,7 +3,7 @@
  * @Date:   08-08-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 08-08-2017
+ * @Last modified time: 09-08-2017
  */
 
 import { Component } from '@angular/core';
@@ -42,6 +42,7 @@ export class TopScoresPage {
     private store:Store<State>
   ) {
     this.storeDB = this.store.select((state:State) => state.db)
+                             .map(recors => recors.map(recor =>  Object.assign({}, recor, {user:{email: recor.user.email.split("@")[0]}})))
     this.store.dispatch({
         type: 'GET_DATAS_ARRAY',
         payload: 'maxScore'

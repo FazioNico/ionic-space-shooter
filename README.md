@@ -32,13 +32,16 @@ Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework
 - [ ] add all action into static proprety: [src/store/actions/mainActions.ts](src/store/actions/mainActions.ts)
 - [ ] check if user is log.. and propose signin if not: [src/pages/play/play.ts](src/pages/play/play.ts)
 - [ ] display confirmation score save: [src/pages/play/play.ts](src/pages/play/play.ts)
-- [ ] Fix bug with IOS. audio not playing.. : [src/pages/play/play.ts](src/pages/play/play.ts)
 - [ ] save player setting, level & score: [src/pages/play/play.ts](src/pages/play/play.ts)
 - [ ] remove static img load and use Store datas
+- [ ] refactoring manageCollision.ts as an Angular Component
+- [ ] refactoring detectCollision.ts as an Angular Component
+- [ ] refactoring quadtree.ts as an Angular Component
 - [ ] create/add app icon, splashscreen
 - [ ] add electron.js
 
 ## Have tofix
+- [ ] Fix bug with IOS. audio not playing.. : [src/pages/play/play.ts](src/pages/play/play.ts)
 - [ ] `$ ionic cordova build browser --prod` currently not working
 
 ## About author
