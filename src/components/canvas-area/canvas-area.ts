@@ -76,7 +76,7 @@ export class CanvasAreaComponent{
   public eventEmited:boolean;
   public animate:boolean;
   public animationFrame:any;
-  public intCtrl: {enemy:number, enemyBullet:number, bossBullet:number}
+  public intCtrl: {enemy:any, enemyBullet:any, bossBullet:any}
   public collCtrl:ManageCollision;
   public quadtree:Quadtree;
 

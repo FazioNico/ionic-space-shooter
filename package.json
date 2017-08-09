@@ -9,7 +9,16 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "electron:prod": "ionic cordova build browser && electron .",
+    "electron:build": "ionic cordova build browser && electron-packager . --overwrite",
+    "clear:osx": "rm -rf *-darwin-x64; rm -rf ./platforms/*-mas-x64",
+    "clear:win": "rm -rf *-win32-ia32; rm -rf ./platforms/*-win32-x64",
+    "clear:nix": "rm -rf *-linux-ia32; rm -rf ./platforms/*-linux-x64",
+    "pack:osx": "npm run clear:osx && electron-packager ./ --platform=darwin,mas --arch=x64 --asar --out=platforms ",
+    "pack:win": "npm run clear:win && electron-packager ./ --platform=win32 --arch=ia32,x64 --asar --out=platforms ",
+    "pack:nix": "npm run clear:nix && electron-packager ./ --platform=linux --arch=ia32,x64 --asar --out=platforms ",
+    "deploy":"firebase deploy"
   },
   "dependencies": {
     "@angular/common": "4.1.3",
@@ -40,9 +49,12 @@
     "@ionic/app-scripts": "^2.1.3",
     "@ionic/cli-plugin-cordova": "1.6.2",
     "@ionic/cli-plugin-ionic-angular": "1.4.1",
+    "electron": "^1.6.11",
+    "electron-packager": "^8.7.2",
     "ionic": "3.7.0",
     "ngrx-store-freeze": "^0.1.9",
     "typescript": "2.3.4"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "main": "electron.js"
 }

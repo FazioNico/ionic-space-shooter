@@ -27,6 +27,7 @@ Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework
 - add platform with `$ ionic cordova platform add ios||browser`
 - build platform with `$ ionic cordova build ios||browser`
 - deploy browser platform with Firebase Hosting by runing `$ firebase deploy`
+- build desktop version with `$ npm run electron:build`
 
 ## Have todo
 - [ ] add all action into static proprety: [src/store/actions/mainActions.ts](src/store/actions/mainActions.ts)
@@ -38,7 +39,7 @@ Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework
 - [ ] refactoring detectCollision.ts as an Angular Component
 - [ ] refactoring quadtree.ts as an Angular Component
 - [ ] create/add app icon, splashscreen
-- [ ] add electron.js
+- [x] add electron.js
 
 ## Have tofix
 - [ ] Fix bug with IOS. audio not playing.. : [src/pages/play/play.ts](src/pages/play/play.ts)
