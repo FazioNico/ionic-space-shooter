@@ -40,6 +40,7 @@ Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework
 - [ ] refactoring quadtree.ts as an Angular Component
 - [ ] create/add app icon, splashscreen
 - [x] add electron.js
+- [ ] add auto-updating with [electron-builder](https://www.npmjs.com/package/electron-builder)
 
 ## Have tofix
 - [ ] Fix bug with IOS. audio not playing.. : [src/pages/play/play.ts](src/pages/play/play.ts)
