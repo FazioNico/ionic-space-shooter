@@ -3,7 +3,7 @@
  * @Date:   29-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 30-07-2017
+ * @Last modified time: 09-08-2017
  */
 
  import { Shape } from '../shape'
@@ -25,6 +25,7 @@
      }
 
      draw(){
+       console.log('background->', this.width, this.img.width)
        // super.draw();
        // Fill the path
        this.ctx.beginPath();
@@ -32,6 +33,14 @@
        // this.ctx.fillRect(0,0,this.width,this.height);
        this.ctx.drawImage(this.img,this.x, this.y);
        this.ctx.drawImage(this.img,this.x, this.y - this.img.height);
+       if(this.img.width < this.width) {
+         this.ctx.drawImage(this.img,this.x+this.img.width, this.y);
+         this.ctx.drawImage(this.img,this.x+this.img.width, this.y - this.img.height);
+       }
+       if(this.img.width *2 < this.width * 2) {
+         this.ctx.drawImage(this.img,this.x+(this.img.width*2), this.y);
+         this.ctx.drawImage(this.img,this.x+(this.img.width*2), this.y - this.img.height);
+       }
        this.ctx.closePath();
        this.y += this.speed;
        if (this.y >= this.img.height)
