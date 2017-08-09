@@ -1,26 +1,28 @@
-This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
+# Ionic Space Shooter
+<blockquote>80's arcade game build with Ionic Framework</blockquote>
 
-## How to use this template
+## Overview
+Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework with ngrx @store/effects to manage game state and Electron Framework to provide full multi platform application (iOS/Android platform + Web Browser platform + Desktop platform).
 
-*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
+## Prerequisites
+- NVM - [Download](https://github.com/creationix/nvm) & Install Node Version Manage
+- NodeJS 7 - Download & Install Node.js and the npm package manager with NVM `$ nvm install node 7`.
+- [Typescript](https://www.npmjs.com/package/typescript) Latest stable version install in Global `$ npm install -g typescript`
+- [Ionic 3](https://ionicframework.com/) & [Cordova](https://cordova.apache.org/) - Latest stable version install in Global `$ npm install -g ionic cordova`
+- [Electron](https://electron.atom.io/) Latest stable version install in Global `$ npm install electron -g`
+- Good knowledge of [AngularFire2](https://github.com/angular/angularfire2)
+- Good knowledge of [Reactive Programming](http://reactivex.io/) with [ngRx](https://github.com/ngrx) and [ngRx/store](https://github.com/ngrx/store) + [ngRx/effects](https://github.com/ngrx/effects)
+- [Redux DevTools Extension](http://extension.remotedev.io/) - Install Plugin for Chrome - Debugging application's state changes & provides power-ups for your Redux development workflow.
+- And you should also have git installed to a better working flow.
 
-To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
 
-### With the Ionic CLI:
+## Quick start
+- run nvm & node with `$ nvm use 7` & `$ npm install`
+- add your own FB_CONFIG in a simple file to initialize your Firebase config into `./src/store/app-state.module.ts`
+- run app with `$ ionic serve`
+- add platform with `$ ionic cordova platform add ios||browser`
+- build platform with `$ ionic cordova build ios||browser`
+- deploy browser platform with Firebase Hosting by runing `$ firebase deploy`
 
-Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
-
-```bash
-$ sudo npm install -g ionic cordova
-$ ionic start myBlank blank
-```
-
-Then, to run it, cd into `myBlank` and run:
-
-```bash
-$ ionic cordova platform add ios
-$ ionic cordova run ios
-```
-
-Substitute ios for android if not on a Mac.
-
+## About author
+Hi, i'm a Front-end developper living in Geneva Switzerland and i build hybrid mobile & web applications for almost 15 years. You can follow me on Twitter @FazioNico or checkout my own website http://nicolasfazio.ch
