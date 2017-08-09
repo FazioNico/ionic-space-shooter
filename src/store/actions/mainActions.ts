@@ -3,7 +3,7 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 07-08-2017
+ * @Last modified time: 09-08-2017
 */
 
 
@@ -22,6 +22,7 @@ export class MainActions {
   static MOUSE_MOVING:string = '[EVENT]-MOUSE_MOVING'
   static KEY_PRESS:string = '[EVENT]-KEY_PRESS'
 
+  static IMG_INIT:string = '[IMAGES]-INIT'
   static IMG_LOAD:string = '[IMAGES]-LOAD'
   static IMG_LOAD_SUCCESS:string = '[IMAGES]-LOAD_SUCCESS'
 

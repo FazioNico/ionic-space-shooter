@@ -3,7 +3,7 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 08-08-2017
+ * @Last modified time: 09-08-2017
 */
 
 
@@ -87,6 +87,9 @@ export class SelectPlayerPage implements OnInit{
   ngOnInit():void{
     this.platform.ready().then(()=>{
         console.log('SelectPlayerPage Init')
+        this.store.dispatch({
+          type: MainActions.IMG_INIT
+        })
         this.store.dispatch({
           type: MainActions.SET_LEVEL,
           payload: null

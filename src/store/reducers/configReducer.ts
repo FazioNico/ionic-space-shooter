@@ -3,7 +3,7 @@
  * @Date:   25-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 06-08-2017
+ * @Last modified time: 09-08-2017
  */
 
  import { Action } from '@ngrx/store';
@@ -53,6 +53,10 @@
              action.payload
            ]
          })
+
+    case MainActions.IMG_INIT:
+          return Object.assign({}, state, {imgDatas: []})
+          
     //  case MainActions.GET_DATAS_SUCCESS: {
     //      return Object.assign({}, state, {
     //       elements: {
