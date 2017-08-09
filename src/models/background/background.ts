@@ -25,8 +25,6 @@
      }
 
      draw(){
-       console.log('background->', this.width, this.img.width)
-       // super.draw();
        // Fill the path
        this.ctx.beginPath();
        // this.ctx.fillStyle = "#000";

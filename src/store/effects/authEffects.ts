@@ -3,7 +3,7 @@
  * @Date:   07-08-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 07-08-2017
+ * @Last modified time: 09-08-2017
  */
 
 
@@ -33,7 +33,7 @@
            if (_result) {
                return Observable.of(<Action>{ type: MainActions.CHECK_AUTH_SUCCESS, payload: Object.assign({}, {email:_result.email, id:_result.uid}) })
            } else {
-               console.log('CHECK_AUTH_NO_USER',_result)
+               //console.log('CHECK_AUTH_NO_USER',_result)
                // Observable.of(<Action>{ type: 'OPEN_MODAL', payload: 'SignInModal' })
                return Observable.of(<Action>{ type: MainActions.CHECK_AUTH_NO_USER, payload: null })
            }

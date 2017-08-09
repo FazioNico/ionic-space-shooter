@@ -3,7 +3,7 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 07-08-2017
+ * @Last modified time: 09-08-2017
 */
 
 import { Injectable } from '@angular/core';
@@ -38,12 +38,6 @@ export class LevelEffects {
           observer.next({ type: MainActions.IMG_LOAD, payload: imgArray })
         })
       })
-
-      // .map<Action, any>(toPayload)
-      // .switchMap((payload:Observable<any>) => {
-      //   console.log(this.action$)
-      //   return this._http.getLevelIMG(payload)
-      // })
 
   @Effect() updateLevelAction$ = this.action$
       .ofType(MainActions.LEVEL_UPDATE)

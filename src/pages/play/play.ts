@@ -97,6 +97,7 @@ export class PlayPage {
         this.loadAudioHTMLAPI()
       }
       else {
+        // TODO: Fix bug with IOS. audio not playing..
         this.uniqueID =  `bgAudio_${Date.now()}`;
         //mobile
         this.nativeAudio.preloadComplex(this.uniqueID, './assets/audio/bg.mp3', 1, 1, 0)
@@ -130,17 +131,17 @@ export class PlayPage {
   }
 
   canvasEvent(event){
-    console.log(event)
+    //console.log(event)
     let alert,to;
     switch (event) {
       case 'levelup':
-          console.log('switch levelUp')
+          //console.log('switch levelUp')
           this.store.dispatch({
             type: MainActions.LEVEL_UPDATE,
           })
           break;
       case 'gameover':
-           console.log('switch Game Over');
+           //console.log('switch Game Over');
            if(this.navParams.get('user')){
              this.store.dispatch({
                type: 'SAVE_MAX_SCORE',
@@ -162,14 +163,14 @@ export class PlayPage {
               {
                 text: 'Quit',
                 handler: () => {
-                  console.log('Quit clicked');
+                  //console.log('Quit clicked');
                   this.exitGame()
                 }
               },
               {
                 text: 'Yes',
                 handler: () => {
-                  console.log('Yes clicked');
+                  //console.log('Yes clicked');
                   this.resetGame()
                 }
               }
@@ -181,14 +182,14 @@ export class PlayPage {
            },1500)
            break;
       case 'endofgame':
-          console.log('switch End Of Game')
+          //console.log('switch End Of Game')
           alert = this.alertCtrl.create({
             subTitle: 'Save Score ?',
             buttons: [
              {
                text: 'Quit',
                handler: () => {
-                 console.log('Quit clicked');
+                 //console.log('Quit clicked');
                  this.exitGame()
                }
              },
@@ -196,7 +197,9 @@ export class PlayPage {
                text: 'Yes',
                handler: () => {
                  console.log('TODO=>: Yes clicked');
-                 //TODO=>: add save function
+                 //TODO: check if user is log.. and propose signin if not
+                 this.saveMaxScore()
+                 this.exitGame()
                }
              }
            ]
@@ -218,20 +221,18 @@ export class PlayPage {
         //   text: 'Save',
         //   handler: () => {
         //     console.log('Save clicked');
-        //     // TODO (save player setting, level & score)
+        //     // TODO save player setting, level & score
         //   }
         // },
         {
           text: 'Reset',
           handler: () => {
-            console.log('Reset clicked');
             this.resetGame()
           }
         },
         {
           text: 'Quit',
           handler: () => {
-            console.log('Quit clicked');
             this.exitGame()
           }
         },
@@ -239,7 +240,6 @@ export class PlayPage {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
             this.ngCanvas.eofPause()
           }
         }
@@ -249,8 +249,25 @@ export class PlayPage {
   }
 
   ionViewDidLeave(){
-    console.log('ionViewDidLeave')
     this.stopGame()
+  }
+
+  saveMaxScore():void{
+    if(this.navParams.get('user')){
+      this.store.dispatch({
+        type: 'SAVE_MAX_SCORE',
+        payload: {
+          type: 'set',
+          collection: 'score',
+          uid:this.navParams.get('user').id,
+          user: this.navParams.get('user'),
+          datas:{
+            current:this.ngCanvas.collCtrl.score.current || 0
+          }
+        }
+      })
+      // TODO: display confirmation score save
+    }
   }
 
   stopGame():void{

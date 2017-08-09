@@ -3,7 +3,7 @@
  * @Date:   08-08-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 08-08-2017
+ * @Last modified time: 09-08-2017
  */
 
  import { Injectable } from "@angular/core";
@@ -69,7 +69,7 @@
           return this._db$.object(`${payload.collection}/${payload.id||payload.uid}`)
                           .take(1)
                           .switchMap(res=> {
-                            console.log(payload.datas.current, res.current)
+                            // console.log(payload.datas.current, res.current)
                             if(!res.current || payload.datas.current > res.current){
                               // update
                               let payload2 = Object.assign({}, payload, {
@@ -112,7 +112,7 @@
                          .take(1)
                          .switchMap(res=> {
                            let filtred = res.sort((a,b) => a.score - b.score ).reverse().slice(0, 10);
-                           console.log('CLEAN_RECORS->', filtred)
+                           // console.log('CLEAN_RECORS->', filtred)
                            this._db$.database.ref(`maxScore`)
                                              .set(filtred);
                            return Observable.of<any>({type: 'CLEAN_RECORS_SUCCESS', payload: null})

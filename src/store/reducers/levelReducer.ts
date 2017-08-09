@@ -3,7 +3,7 @@
  * @Date:   25-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 06-08-2017
+ * @Last modified time: 09-08-2017
  */
 
  import { Action } from '@ngrx/store';
@@ -29,7 +29,6 @@
     case MainActions.INIT:
          return Object.assign({}, state,intitialState)
     case MainActions.LEVEL_UPDATE:
-    console.log('TODO: --->', action.payload)
          const NEW_LEVEL:number = state.current+1
          if(NEW_LEVEL < intitialState.maxLevel){
            return Object.assign({}, state, {current:NEW_LEVEL,config:LEVELS[NEW_LEVEL]})

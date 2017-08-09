@@ -15,6 +15,8 @@ import {Action} from '@ngrx/store';
 */
 @Injectable()
 export class MainActions {
+  
+  // TODO: add all action into static proprety
 
   static INIT:string = '[INIT]-SPACE_SHOOTER_GAME'
 

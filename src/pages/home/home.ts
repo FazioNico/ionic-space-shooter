@@ -3,7 +3,7 @@
  * @Date:   30-05-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 08-08-2017
+ * @Last modified time: 09-08-2017
  */
 
 import { Component, OnInit } from '@angular/core';
@@ -40,7 +40,6 @@ export class HomePage implements OnInit {
     this.userInfo = this.store.select((state:State) => state.auth)
     this.nav$ = this.store.select((state:State) => state.nav).subscribe((page) => {
         if(page){
-          console.log(page)
           let modal:Modal = this.modalCtrl.create(page);
           modal.present()
                .catch(err=>{
@@ -51,12 +50,10 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit():void {
-    // TODO: check user auth
     this.store.dispatch(<Action>this.mainActions.checkAuth())
   }
 
   goSpaceShooter(event, user:{id:string, email:string} | null):void{
-    console.log(user)
     this.navCtrl.push('SelectPlayerPage', (user)? {user: user}: null)
   }
 

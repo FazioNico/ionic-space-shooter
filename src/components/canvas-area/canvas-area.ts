@@ -3,7 +3,7 @@
 * @Date:   25-07-2017
 * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 07-08-2017
+ * @Last modified time: 09-08-2017
 */
 
 import { Component, Output, EventEmitter, ViewChild, Input, ElementRef, Renderer, ChangeDetectionStrategy, HostListener } from '@angular/core';
@@ -311,7 +311,7 @@ export class CanvasAreaComponent{
       if(!this.elementsToDraw.boss || this.elementsToDraw.boss.length === 0){
         return
       }
-      console.log('boss bullets')
+      //console.log('boss bullets')
       this.elementsToDraw.boss.map((element, index) => {
           if(!element.x && !element.y)return;
           bullets = [
@@ -369,7 +369,7 @@ export class CanvasAreaComponent{
   }
 
   levelUp():void{
-    console.log('levelUp!!')
+    //console.log('levelUp!!')
     this.onEvents.emit('levelup')
     clearTimeout(this.intCtrl.enemy)
     this.drawLevelUp = true
@@ -406,7 +406,7 @@ export class CanvasAreaComponent{
     this.animate = false;
     if(this.boss)
       delete this.boss
-    console.log('stopGame!!')
+    //console.log('stopGame!!')
   }
 
   drawFinalWin():void{
