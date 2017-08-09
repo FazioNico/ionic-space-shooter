@@ -3,7 +3,7 @@
  * @Date:   25-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 08-08-2017
+ * @Last modified time: 09-08-2017
  */
 
  import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
@@ -57,6 +57,8 @@ export class PlayPage {
   public bgAudio:HTMLAudioElement;
   public playing:boolean = false
 
+  public uniqueID:string;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -89,38 +91,37 @@ export class PlayPage {
   loadAudio(platform:boolean):void{
       console.log('loadAudio...');
       if(this.playing)return;
-      let uniqueID:string = `bgAudio_${Date.now()}`;
       if(platform){
         // core
         console.log('native audio unavailable->  playing audio with HTML5 Audio() API')
-        this.loadAudioHTMLAPI(uniqueID)
+        this.loadAudioHTMLAPI()
       }
       else {
+        this.uniqueID =  `bgAudio_${Date.now()}`;
         //mobile
-        this.nativeAudio.preloadComplex(uniqueID, './assets/audio/bg.mp3', 1, 1, 0)
+        this.nativeAudio.preloadComplex(this.uniqueID, './assets/audio/bg.mp3', 1, 1, 0)
         .then((success)=>{
           console.log('succes preload')
           //this.nativeAudio.play(uniqueID, () => console.log(`${uniqueID} is done playing`));
-          this.nativeAudio.loop(uniqueID)
+          this.nativeAudio.loop(this.uniqueID)
           .then(onSuccess=>{
-            console.log(`${uniqueID} is done playing`, onSuccess)
+            console.log(`${this.uniqueID} is done playing`, onSuccess)
             //this.initGame()
           })
           .catch(error => {
-            console.log(`native audio error: ${uniqueID} is not playing`, error)
+            console.log(`native audio error: ${this.uniqueID} is not playing`, error)
           });
         })
         .catch(error => {
           console.log('native audio error-> ', error, ' -> playing audio with HTML5 Audio() API')
-          this.loadAudioHTMLAPI(uniqueID)
+          this.loadAudioHTMLAPI()
         })
       }
       this.playing = true;
   }
 
-  loadAudioHTMLAPI(uniqueID:string):void{
+  loadAudioHTMLAPI():void{
     this.bgAudio = new Audio();
-    this.bgAudio.id = uniqueID;
     this.bgAudio.src = './assets/audio/bg.mp3';
     this.bgAudio.loop = true;
     this.bgAudio.oncanplaythrough = () =>{
@@ -255,6 +256,10 @@ export class PlayPage {
   stopGame():void{
     if(this.bgAudio){
       this.bgAudio.pause()
+      this.playing = false;
+    }
+    if(this.uniqueID){
+      this.nativeAudio.stop(this.uniqueID)
       this.playing = false;
     }
     if(this.ngCanvas){
