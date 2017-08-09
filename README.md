@@ -2,6 +2,8 @@
 <blockquote>80's arcade game build with Ionic Framework</blockquote>
 
 ## Overview
+***This personal project is currently under development***
+
 Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework with ngrx @store/effects to manage game state and Electron Framework to provide full multi platform application (iOS/Android platform + Web Browser platform + Desktop platform).
 
 ## Prerequisites
@@ -23,6 +25,10 @@ Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework
 - add platform with `$ ionic cordova platform add ios||browser`
 - build platform with `$ ionic cordova build ios||browser`
 - deploy browser platform with Firebase Hosting by runing `$ firebase deploy`
+
+## Have to do
+
+## Have to fix
 
 ## About author
 Hi, i'm a Front-end developper living in Geneva Switzerland and i build hybrid mobile & web applications for almost 15 years. You can follow me on Twitter @FazioNico or checkout my own website http://nicolasfazio.ch
