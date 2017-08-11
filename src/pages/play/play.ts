@@ -3,12 +3,11 @@
  * @Date:   25-07-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 09-08-2017
+ * @Last modified time: 12-08-2017
  */
 
  import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
- import { IonicPage, NavController, NavParams } from 'ionic-angular';
- import { ActionSheetController, AlertController } from 'ionic-angular';
+ import { IonicPage, NavController, NavParams, ToastController, Toast, ActionSheetController, AlertController } from 'ionic-angular';
  import { NativeAudio } from '@ionic-native/native-audio';
 
  import { Store } from '@ngrx/store'
@@ -65,7 +64,8 @@ export class PlayPage {
     private nativeAudio: NativeAudio,
     private store:Store<any>,
     public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public toastCtrl:ToastController
 
   ) {
     if(!this.navParams.get('ready')){
@@ -142,20 +142,7 @@ export class PlayPage {
           break;
       case 'gameover':
            //console.log('switch Game Over');
-           if(this.navParams.get('user')){
-             this.store.dispatch({
-               type: 'SAVE_MAX_SCORE',
-               payload: {
-                 type: 'set',
-                 collection: 'score',
-                 uid:this.navParams.get('user').id,
-                 user: this.navParams.get('user'),
-                 datas:{
-                   current:this.ngCanvas.collCtrl.score.current || 0
-                 }
-               }
-             })
-           }
+           this.saveMaxScore()
 
            alert = this.alertCtrl.create({
              subTitle: 'Play again ?',
@@ -196,8 +183,7 @@ export class PlayPage {
              {
                text: 'Yes',
                handler: () => {
-                 console.log('TODO=>: Yes clicked');
-                 //TODO: check if user is log.. and propose signin if not
+                 // console.log('Yes clicked');
                  this.saveMaxScore()
                  this.exitGame()
                }
@@ -266,7 +252,22 @@ export class PlayPage {
           }
         }
       })
-      // TODO: display confirmation score save
+      // display confirmation score save
+      let toast:Toast = this.toastCtrl.create({
+        message: 'Score saved successfully',
+        duration: 5000,
+        position: 'top'
+      });
+      toast.present();
+    }
+    else {
+      let toast:Toast = this.toastCtrl.create({
+        message: 'You have to be loged to save your top socre. Go to the main menu and create your free account.',
+        position: 'top',
+        showCloseButton: true,
+        closeButtonText: 'ok'
+      });
+      toast.present();
     }
   }
 
