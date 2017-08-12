@@ -45,7 +45,7 @@ Testing build Gaming Hybrid Application using HTML5 Canvas API + Ionic Framework
 ## Have tofix
 - [x] Fix bug: Failed to execute 'drawImage' on 'CanvasRenderingContext2D': The provided value is not of type '(CSSImageValue or HTMLImageElement or SVGImageElement or HTMLVideoElement or HTMLCanvasElement or ImageBitmap or OffscreenCanvas)' on file `./src/models/explosion/explosion.ts`
 - [ ] Fix bug with ionic cash update not working. (PWA).. [more...](https://forum.ionicframework.com/t/pwa-how-to-update-cached-javascript/82149)
-- [ ] Fix bug with serviceWorker update not working. (PWA)..
+- [ ] Fix bug with serviceWorker update not working. (PWA).. [more...](https://medium.com/@zwacky/pwa-create-a-new-update-available-notification-using-service-workers-18be9168d717)
 - [ ] Fix bug with IOS. audio not playing.. : [src/pages/play/play.ts](src/pages/play/play.ts)
 - [ ] `$ ionic cordova build browser --prod` currently not working
 
