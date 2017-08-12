@@ -11,34 +11,51 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7">
 
+  <link href="build/main.css" rel="preload" as="style">
+  <link href="build/polyfills.js" rel="preload" as="script">
+  <link href="build/vendor.js" rel="preload" as="script">
+  <link href="build/main.js" rel="preload" as="script">
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
 
-  <!-- <script>
-    if ('serviceWorker' in navigator) {
+  <script>
+    if ('serviceWorker' in navigator && ['localhost', '127'].indexOf(location.hostname) === -1) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('service worker installed'))
         .catch(err => console.error('Error', err));
     }
-  </script> -->
-
-  <link href="build/main.css" rel="stylesheet">
+  </script>
 
 </head>
 <body>
 
   <!-- Ionic's root component and where the app will load -->
-  <ion-app></ion-app>
+  <ion-app>
+    <noscript>
+      <h2 style="padding: 50px; text-align: center;">😱 You need JavaScript enabled to use this awesome PWA 👊</h2>
+    </noscript>
+  </ion-app>
+
+  <script type="text/javascript">
+    /**
+    * PWA Tips: https://github.com/shprink/ionic-angular-twitter-pwa
+    * /
+    /* First CSS File */
+    var giftofspeed = document.createElement('link');
+    giftofspeed.rel = 'stylesheet';
+    giftofspeed.href = 'build/main.css';
+    giftofspeed.type = 'text/css';
+    var godefer = document.getElementsByTagName('link')[0];
+    godefer.parentNode.insertBefore(giftofspeed, godefer);
+  </script>
 
   <!-- The polyfills js is generated during the build process -->
   <script src="build/polyfills.js"></script>
-
   <!-- The vendor js is generated during the build process
        It contains all of the dependencies in node_modules -->
   <script src="build/vendor.js"></script>
-
   <!-- The main bundle js is generated during the build process -->
-  <script src="build/main.js?v=101412082017"></script>
+  <script src="build/main.js"></script>
 
 </body>
 </html>
