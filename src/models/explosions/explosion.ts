@@ -3,7 +3,7 @@
  * @Date:   06-08-2017
  * @Email:  contact@nicolasfazio.ch
  * @Last modified by:   webmaster-fazio
- * @Last modified time: 06-08-2017
+ * @Last modified time: 12-08-2017
  */
 
   import { Shape } from '../shape'
@@ -30,7 +30,10 @@
       //console.log(this.int, Date.now(), Date.now() - this.int )
       if(this.count < 11){
         if(( Date.now() - this.int) > 10 ){
-          //console.log('draw expl',this.x, this.y, )
+          if(!this.imgArray[this.count]){
+            console.log('no img->', this.imgArray[this.count], this.imgArray)
+            return
+          }
           this.ctx.beginPath();
           this.ctx.drawImage(
             this.imgArray[this.count],
